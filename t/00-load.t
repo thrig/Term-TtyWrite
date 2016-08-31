@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Term::TtyWrite' ) || print "Bail out!\n";
+    use_ok('Term::TtyWrite') || print "Bail out!\n";
 }
 
-diag( "Testing Term::TtyWrite $Term::TtyWrite::VERSION, Perl $], $^X" );
+diag("Testing Term::TtyWrite $Term::TtyWrite::VERSION, Perl $], $^X");

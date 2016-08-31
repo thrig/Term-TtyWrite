@@ -1,14 +1,13 @@
 Changes
-lib/Term/TtyWrite.pm
-lib/Term/TtyWrite.xs
-lib/Term/typemap
+LICENSE
+MANIFEST
 Makefile.PL
-MANIFEST			This list of files
-ppport.h
 README
+TtyWrite.xs
+lib/Term/TtyWrite.pm
+ppport.h
 t/00-load.t
 t/01-object.t
-t/02-feature.t
-t/manifest.t
 t/pod-coverage.t
 t/pod.t
+typemap

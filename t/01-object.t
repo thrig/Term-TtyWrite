@@ -1,22 +1,17 @@
+#!perl
 
-use Test::More tests => 10;
+use Test::Most;    # plan is down at bottom
 
-BEGIN {
-use_ok( 'Term::TtyWrite' );
-}
+use Term::TtyWrite;
 
-my $obj;
+dies_ok( sub { Term::TtyWrite->new }, "no args no dice" );
 
-ok( $obj = Term::TtyWrite->new(), "no initializer");
-isa_ok($obj,"Term::TtyWrite");
+my $tty;
 
-ok( $obj = Term::TtyWrite->new(1), "initial numeric value");
-ok($obj->{value} == 1, "implicit initializer");
+ok( $tty = Term::TtyWrite->new(__FILE__), "write access to known file" );
+isa_ok( $tty, "Term::TtyWrite" );
 
-ok( $obj = Term::TtyWrite->new("fish"), "initial string value");
-ok($obj->{value} eq "fish", "implicit initializer");
+# TODO actually testing this is going to be tricky given a) need for
+# root and b) creating virtual terminals to poke at and so forth :/
 
-ok( $obj = Term::TtyWrite->new(color => "red", flavor => "sour"), 
-	"hash as initializer");
-ok( $obj->{color} eq "red", "first hash key");
-ok( $obj->{flavor} eq "sour", "first hash key");
+plan tests => 3;

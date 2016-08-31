@@ -1,100 +1,90 @@
+# -*- Perl -*-
+#
+# remote control a terminal
+#
+# Run perldoc(1) on this file for additional documentation. See
+# TtyWrite.xs for the code actual.
+
 package Term::TtyWrite;
-
-use warnings;
-use strict;
-
-=head1 NAME
-
-Term::TtyWrite - The great new Term::TtyWrite!
-
-=head1 VERSION
-
-Version 0.01
-
-=cut
 
 our $VERSION = '0.01';
 
 require XSLoader;
 XSLoader::load('Term::TtyWrite', $VERSION);
 
+1;
+__END__
+
+=head1 NAME
+
+Term::TtyWrite - remote control a terminal
+
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+As root.
 
-Perhaps a little code snippet.
+  use Term::TtyWrite;
 
-    use Term::TtyWrite;
+  my $tty = Term::TtyWrite->new("/dev/ttyp1");
 
-    my $foo = Term::TtyWrite->new();
-    ...
+  $tty->write("echo hi\n");
 
-=head1 EXPORT
+=head1 DESCRIPTION
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+Remote control a terminal via the C<TIOCSTI> B<ioctl>. This typically
+requires that the code be run as root, or on Linux that the appropriate
+capability has been granted.
 
-=head1 FUNCTIONS
+This module will throw an exception if anything goes awry; use C<eval>
+or L<Try::Tiny> to catch these, if necessary.
 
-=head2 new
-
-Creates a new Term::TtyWrite object.  Takes the following optional parameters:
+=head1 METHODS
 
 =over 4
 
-=item value
+=item B<new> I<device-path>
 
-If you pass a single numeric value, it will be stored in the 'value' slot
-of the object hash.
+Constructor; returns an object that the B<write> method may be used on.
+The B<new> method requires that a path to a device be supplied. These
+will vary by operating system, and can be listed for a given terminal
+with the L<tty(1)> command.
 
-=item key/value pair
+=item B<write> I<string>
 
-A generic input method which takes an unlimited number of key/value pairs
-and stores them in the object hash.  Performs no validation.
+Writes the given I<string> to the terminal device specified in the
+constructor B<new>.
 
 =back
 
-=cut
+=head1 BUGS
 
-#sub new {
-# Defined in the XS code
-#}
+=head2 Reporting Bugs
 
-=head2 increment
+Please report any bugs or feature requests to
+C<bug-term-ttywrite at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Term-TtyWrite>.
 
-An object method which increments the 'value' slot of the the object hash,
-if it exists.  Called like this:
+Patches might best be applied towards:
 
-  my $obj = Term::TtyWrite->new(5);
-  $obj->increment(); # now equal to 6
+L<https://github.com/thrig/Term-TtyWrite>
 
-=cut
+=head2 Known Issues
 
-#sub function2 {
-# Defined in the XS code
-#}
+Untested portability given the use of particular ioctl()s that
+L<perlport> warns about. The security concerns of running as root.
 
 =head1 AUTHOR
 
-Jeremy Mates, C<< <jmates@cpan.org> >>
+thrig - Jeremy Mates (cpan:JMATES) C<< <jmates at cpan.org> >>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests to
-C<bug-term-ttywrite@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Term-TtyWrite>.
-I will be notified, and then you'll automatically be notified of progress on
-your bug as I make changes.
-
-=head1 ACKNOWLEDGEMENTS
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2016 Jeremy Mates, All Rights Reserved.
+Copyright (C) 2016 by Jeremy Mates
 
 This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+under the terms of the the Artistic License (2.0). You may obtain a copy
+of the full license at:
+
+L<http://www.perlfoundation.org/artistic_license_2_0>
 
 =cut
-
-1; # End of Term::TtyWrite
