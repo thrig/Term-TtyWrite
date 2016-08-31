@@ -1,4 +1,4 @@
-Term::TtyWrite - remote control a terminal
+Term::TtyWrite - remote control a terminal via the TIOCSTI ioctl
 
 To install this module, use CPAN, for example:
 

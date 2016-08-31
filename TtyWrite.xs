@@ -11,8 +11,10 @@
 #endif
 
 #include <fcntl.h>
+#include <limits.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef SV * Term_TtyWrite;
 
@@ -60,7 +62,7 @@ new(...)
     	RETVAL
 
 void
-write(obj,$)
+write(obj, ...)
     Term_TtyWrite obj
 
     INIT:
@@ -78,6 +80,38 @@ write(obj,$)
                 str = SvPV(ST(1),len);
                 while(len-- > 0) {
                     ioctl(fd, TIOCSTI, str++);
+                }
+            } else {
+                Perl_croak(aTHX_ "fd unexpectedly is not set");
+            }
+	}
+
+void
+write_delay(obj, ...)
+    Term_TtyWrite obj
+
+    INIT:
+	if (items != 3 || !SvPOK(ST(1)) || !SvIOK(ST(2)))
+	    Perl_croak(aTHX_ "Usage: $obj->write_delay(\"some data\", 250)");
+
+    CODE:
+        char *str;
+        int fd;
+        IV delayms;
+        STRLEN len;
+    	SV **svp;
+        useconds_t delay;
+
+	if ((svp = hv_fetchs((HV*)obj, "fd", FALSE))) {
+            if (SvOK(*svp) && SvIOK(*svp)) {
+                fd = (int) SvIV(*svp);
+                str = SvPV(ST(1),len);
+                delayms = SvIV(ST(2));
+                if (delayms > UINT_MAX / 1000) delayms = UINT_MAX / 1000;
+                delay = delayms * 1000;
+                while(len-- > 0) {
+                    ioctl(fd, TIOCSTI, str++);
+                    usleep(delay);
                 }
             } else {
                 Perl_croak(aTHX_ "fd unexpectedly is not set");

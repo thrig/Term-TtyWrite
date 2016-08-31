@@ -2,16 +2,18 @@
 
 use Test::Most;    # plan is down at bottom
 
+use IO::Pty;
 use Term::TtyWrite;
 
-dies_ok( sub { Term::TtyWrite->new }, "no args no dice" );
+dies_ok( sub { Term::TtyWrite->new }, "no arg no dice" );
 
+my $faketerm = IO::Pty->new;
 my $tty;
 
-ok( $tty = Term::TtyWrite->new(__FILE__), "write access to known file" );
+ok( $tty = Term::TtyWrite->new( $faketerm->ttyname ), "write access to pty" );
 isa_ok( $tty, "Term::TtyWrite" );
 
-# TODO actually testing this is going to be tricky given a) need for
-# root and b) creating virtual terminals to poke at and so forth :/
+dies_ok( sub { $tty->write },             "nothing to write" );
+dies_ok( sub { $tty->write_delay("hi") }, "no delay specified" );
 
-plan tests => 3;
+plan tests => 5;

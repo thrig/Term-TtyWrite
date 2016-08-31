@@ -8,6 +8,7 @@ lib/Term/TtyWrite.pm
 ppport.h
 t/00-load.t
 t/01-object.t
+t/10-author.t
 t/pod-coverage.t
 t/pod.t
 typemap

@@ -12,7 +12,7 @@ sub merge_key_into {
 
 my %params = (
     NAME         => 'Term::TtyWrite',
-    ABSTRACT     => 'remote control a terminal',
+    ABSTRACT     => 'remote control a terminal via the TIOCSTI ioctl',
     AUTHOR       => 'Jeremy Mates <jmates@cpan.org>',
     VERSION_FROM => 'lib/Term/TtyWrite.pm',
 
@@ -25,8 +25,9 @@ my %params = (
     },
     BUILD_REQUIRES => {},
     TEST_REQUIRES  => {
-        'Test::Most' => 0,
         'lib'        => 0,
+        'IO::Pty'    => 0,
+        'Test::Most' => 0,
     },
     PREREQ_PM => { 'strict' => 0, },
 

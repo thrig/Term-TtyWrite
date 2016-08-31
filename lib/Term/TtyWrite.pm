@@ -1,13 +1,13 @@
 # -*- Perl -*-
 #
-# remote control a terminal
+# remote control a terminal via the TIOCSTI ioctl
 #
 # Run perldoc(1) on this file for additional documentation. See
 # TtyWrite.xs for the code actual.
 
 package Term::TtyWrite;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load('Term::TtyWrite', $VERSION);
@@ -17,7 +17,7 @@ __END__
 
 =head1 NAME
 
-Term::TtyWrite - remote control a terminal
+Term::TtyWrite - remote control a terminal via the TIOCSTI ioctl
 
 =head1 SYNOPSIS
 
@@ -25,13 +25,14 @@ As root.
 
   use Term::TtyWrite;
 
-  my $tty = Term::TtyWrite->new("/dev/ttyp1");
+  my $tty = Term::TtyWrite->new("/dev/ttyp1");    # or whatever
 
   $tty->write("echo hi\n");
+  $tty->write_delay("echo hi\n", 250);
 
 =head1 DESCRIPTION
 
-Remote control a terminal via the C<TIOCSTI> B<ioctl>. This typically
+Remote control a terminal via the C<TIOCSTI> L<ioctl(2)>. This typically
 requires that the code be run as root, or on Linux that the appropriate
 capability has been granted.
 
@@ -54,6 +55,19 @@ with the L<tty(1)> command.
 Writes the given I<string> to the terminal device specified in the
 constructor B<new>.
 
+=item B<write_delay> I<string>, I<delayms>
+
+As B<write> but with a delay of the given number of milliseconds between
+each character written. The maximum delay possible is around 4294
+seconds on account of the L<usleep(3)> call being limited to
+C<UINT_MAX>; more control is possible by instead wrapping appropriate
+sleep code around single-character calls to B<write>:
+
+  for my $c (split //, $input_string) {
+      custom_sleep();
+      $tty->write($c);
+  }
+
 =back
 
 =head1 BUGS
@@ -72,6 +86,17 @@ L<https://github.com/thrig/Term-TtyWrite>
 
 Untested portability given the use of particular ioctl()s that
 L<perlport> warns about. The security concerns of running as root.
+
+=head1 SEE ALSO
+
+An implementation in C:
+
+L<https://github.com/thrig/scripts/blob/master/tty/ttywrite.c>
+
+C<uinput> on Linux can fake keyboard input.
+
+If possible, instead wrap the terminal with L<Expect> and control it
+with that.
 
 =head1 AUTHOR
 
