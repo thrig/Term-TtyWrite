@@ -57,7 +57,7 @@ constructor B<new>.
 
 =item B<write_delay> I<string>, I<delayms>
 
-As B<write> but with a delay of the given number of milliseconds between
+As B<write> but with a delay of the given number of milliseconds after
 each character written. The maximum delay possible is around 4294
 seconds on account of the L<usleep(3)> call being limited to
 C<UINT_MAX>; more control is possible by instead wrapping appropriate
@@ -85,7 +85,9 @@ L<https://github.com/thrig/Term-TtyWrite>
 =head2 Known Issues
 
 Untested portability given the use of particular ioctl()s that
-L<perlport> warns about. The security concerns of running as root.
+L<perlport> warns about. The security concerns of running as root. Lack
+of tests on account of being tricky to test what with the needing root
+and injecting characters into the terminal thing.
 
 =head1 SEE ALSO
 

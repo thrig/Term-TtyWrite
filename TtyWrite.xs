@@ -91,7 +91,7 @@ write_delay(obj, ...)
     Term_TtyWrite obj
 
     INIT:
-	if (items != 3 || !SvPOK(ST(1)) || !SvIOK(ST(2)))
+	if (items != 3 || !SvPOK(ST(1)) || !SvNIOK(ST(2)))
 	    Perl_croak(aTHX_ "Usage: $obj->write_delay(\"some data\", 250)");
 
     CODE:
