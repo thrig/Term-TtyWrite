@@ -7,7 +7,7 @@
 
 package Term::TtyWrite;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 require XSLoader;
 XSLoader::load('Term::TtyWrite', $VERSION);
@@ -37,7 +37,7 @@ requires that the code be run as root, or on Linux that the appropriate
 capability has been granted.
 
 This module will throw an exception if anything goes awry; use C<eval>
-or L<Try::Tiny> to catch these, if necessary.
+or L<Syntax::Keyword::Try> to catch these, if necessary.
 
 =head1 METHODS
 
