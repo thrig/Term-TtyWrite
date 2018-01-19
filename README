@@ -1,5 +1,9 @@
 Term::TtyWrite - remote control a terminal via the TIOCSTI ioctl
 
+NOTE OpenBSD has removed support for the TIOCSTI ioctl on account of
+security concerns. This module will not work on such systems (or where
+the OS never had it to begin with).
+
 To install this module, use CPAN, for example:
 
   cpan Term::TtyWrite

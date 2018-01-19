@@ -89,6 +89,9 @@ L<perlport> warns about. The security concerns of running as root. Lack
 of tests on account of being tricky to test what with the needing root
 and injecting characters into the terminal thing.
 
+OpenBSD has removed the TIOCSTI ioctl due to security concerns; this
+module will only work on older releases of OpenBSD.
+
 =head1 SEE ALSO
 
 An implementation in C:
