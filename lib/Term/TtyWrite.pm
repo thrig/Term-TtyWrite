@@ -109,12 +109,9 @@ thrig - Jeremy Mates (cpan:JMATES) C<< <jmates at cpan.org> >>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2016 by Jeremy Mates
+Copyright (C) 2016,2018 by Jeremy Mates
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of the the Artistic License (2.0). You may obtain a copy
-of the full license at:
-
-L<http://www.perlfoundation.org/artistic_license_2_0>
+This program is distributed under the (Revised) BSD License:
+L<http://www.opensource.org/licenses/BSD-3-Clause>
 
 =cut
